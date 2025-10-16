@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from flask_cors import CORS
@@ -15,6 +15,13 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'created_at': self.created_at.isoformat()
+        }
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -29,7 +36,7 @@ def index():
             return f'Erreur lors de l\'ajout du message: {e}'
     else:
         messages = Message.query.order_by(Message.created_at).all()
-        return [message for message in messages], 200
+        return jsonify([message.to_dict() for message in messages]), 200
 
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
