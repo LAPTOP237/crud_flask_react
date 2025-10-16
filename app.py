@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://localhost:3000","http://appcrud-message.vercel.app","https://appcrud-message.vercel.app"], "methods": ["GET", "POST"], "allow_headers": ["Content-Type"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://localhost:3000","http://appcrud-message.vercel.app","https://appcrud-message.vercel.app"], "methods": ["GET", "POST","PUT", "DELETE"], "allow_headers": ["Content-Type"]}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bd.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
